@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Petualangan Ulang Tahun Penuh Cinta Untuk Kamu</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+    }
+    .hidden { 
+      display: none; 
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    .page {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2rem;
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      transform: translateY(20px);
+      transition: all 0.5s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .page::before {
+      content: "";
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 150px;
+      height: 150px;
+      background-color: rgba(236, 72, 153, 0.1);
+      border-radius: 50%;
+    }
+    .page::after {
+      content: "";
+      position: absolute;
+      bottom: -30px;
+      left: -30px;
+      width: 100px;
+      height: 100px;
+      background-color: rgba(244, 63, 94, 0.1);
+      border-radius: 50%;
+    }
+    .page.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .bounce-heart {
+      animation: bounce 1s infinite;
+      display: inline-block;
+    }
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);
+      color: white;
+      border: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(244, 63, 94, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(244, 63, 94, 0.3);
+    }
+    .btn-primary::after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 200%;
+      height: 200%;
+      background: rgba(255, 255, 255, 0.2);
+      transform: rotate(30deg);
+      transition: all 0.3s;
+    }
+    .btn-primary:hover::after {
+      left: 100%;
+    }
+    .btn-option {
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    .btn-option:hover {
+      background-color: #fce7f3;
+      transform: translateX(5px);
+    }
+    .btn-option.correct {
+      background-color: #d1fae5;
+      border-color: #34d399;
+      color: #065f46;
+    }
+    .confetti {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background-color: #f43f5e;
+      opacity: 0;
+      z-index: 100;
+    }
+    .heart {
+      color: #f43f5e;
+      text-shadow: 0 0 10px rgba(244, 63, 94, 0.5);
+      transition: all 0.3s;
+    }
+    .heart:hover {
+      transform: scale(1.2);
+    }
+    .floating {
+      animation: floating 3s ease-in-out infinite;
+    }
+    @keyframes floating {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-15px);
+      }
+    }
+    .love-letter {
+      background: url('https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-splash-background_23-2148902771.jpg') center/cover;
+      border: 2px solid #f9a8d4;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+    .love-letter::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 13px;
+      z-index: 0;
+    }
+    .love-letter-content {
+      position: relative;
+      z-index: 1;
+    }
+    .cursive {
+      font-family: 'Dancing Script', cursive;
+    }
+    .polaroid {
+      background: white;
+      padding: 15px 15px 40px 15px;
+      border: 1px solid #eee;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      transform: rotate(3deg);
+      transition: all 0.3s;
+    }
+    .polaroid:hover {
+      transform: rotate(0deg) scale(1.05);
+    }
+    .memory-card {
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    .memory-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .progress-bar {
+      height: 6px;
+      background-color: #f3f4f6;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .progress {
+      height: 100%;
+      background: linear-gradient(90deg, #ec4899, #f43f5e);
+      transition: width 0.5s;
+    }
+    .countdown {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #f43f5e;
+    }
+  </style>
+</head>
+<body class="text-center p-4 md:p-8 text-pink-800 flex items-center justify-center">
+  <!-- Confetti container -->
+  <div id="confetti-container"></div>
+
+  <!-- Music toggle -->
+  <button id="music-toggle" class="fixed bottom-4 right-4 bg-pink-500 text-white p-3 rounded-full shadow-lg z-50">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M12 6a7.975 7.975 0 015.657 2.343m0 0a7.975 7.975 0 010 11.314m-11.314 0a7.975 7.975 0 010-11.314m0 0a7.975 7.975 0 015.657-2.343" />
+    </svg>
+  </button>
+  <audio id="bg-music" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Page 1: Intro -->
+  <div id="page1" class="page active">
+    <div class="floating mb-6">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 mx-auto heart" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+      </svg>
+    </div>
+    <h1 class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500 mb-4">Selamat Ulang Tahun <span class="cursive">Sayangku!</span> <span class="bounce-heart">💖</span></h1>
+    
+    <div class="love-letter mt-6 mb-8">
+      <div class="love-letter-content">
+        <p class="text-lg italic text-pink-700 mb-4">"Untuk yang paling berharga dalam hidupku..."</p>
+        <p class="text-pink-800">Hari ini adalah hari spesial karena dunia mendapat hadiah terindah - yaitu kamu! 💝</p>
+      </div>
+    </div>
+    
+    <p class="mt-4 text-lg text-pink-700">Aku udah nyiapin petualangan seru buat kamu :p!</p>
+    <p class="text-pink-600 mb-6">Bersiaplah untuk nostalgia manis... 😘</p>
+    
+    <button onclick="showPage('page2')" class="mt-4 px-8 py-3 btn-primary rounded-full text-lg font-medium animate-bounce">
+      Mulai Petualangan <span class="ml-2">🚀</span>
+    </button>
+    
+    <div class="mt-8 text-sm text-pink-500">
+      <p>P.S. Kamu harus jawab pertanyaan dengan bener baru bisa buka hadiahnya, nanti ada kejutan! 😉</p>
+    </div>
+  </div>
+
+  <!-- Page 2: Level 1 - Quiz -->
+  <div id="page2" class="page hidden">
+    <div class="flex justify-between items-center mb-6">
+      <span class="px-3 py-1 bg-pink-100 text-pink-700 rounded-full text-sm font-medium">Level 1: Quiz Cinta</span>
+      <div class="text-sm text-pink-600">1/4</div>
+    </div>
+    
+    <div class="progress-bar mb-6">
+      <div class="progress" style="width: 25%"></div>
+    </div>
+    
+    <h2 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500 mb-2">Kuis Kenangan Manis</h2>
+    <p class="mt-2 text-pink-700">Di mana tempat pertama kali kita makan bareng?</p>
+    
+    <div class="mt-8 space-y-4">
+      <button onclick="wrongAnswer(this)" class="w-full px-6 py-4 bg-white border border-pink-200 rounded-xl btn-option hover:border-pink-300 text-left flex items-center">
+        <span class="mr-3 bg-pink-100 text-pink-600 rounded-full w-8 h-8 flex items-center justify-center">A</span>
+        Nasi Kuning
+      </button>
+      <button onclick="wrongAnswer(this)" class="w-full px-6 py-4 bg-white border border-pink-200 rounded-xl btn-option hover:border-pink-300 text-left flex items-center">
+        <span class="mr-3 bg-pink-100 text-pink-600 rounded-full w-8 h-8 flex items-center justify-center">B</span>
+        McD
+      </button>
+      <button onclick="correctAnswer('page3')" class="w-full px-6 py-4 bg-white border border-pink-200 rounded-xl btn-option hover:border-pink-300 text-left flex items-center">
+        <span class="mr-3 bg-pink-100 text-pink-600 rounded-full w-8 h-8 flex items-center justify-center">C</span>
+        Bubur Ayam Alun-Alun
+      </button>
+      <button onclick="wrongAnswer(this)" class="w-full px-6 py-4 bg-white border border-pink-200 rounded-xl btn-option hover:border-pink-300 text-left flex items-center">
+        <span class="mr-3 bg-pink-100 text-pink-600 rounded-full w-8 h-8 flex items-center justify-center">D</span>
+        Richeese
+      </button>
+    </div>
+    
+    <p id="wrong1" class="mt-4 text-red-500 font-medium hidden animate-pulse">Eits bukan itu! Coba ingat lagi momen spesial kita 😉</p>
+    
+    <div class="mt-6 text-xs text-pink-400">
+      <p>Pilih jawaban yang benar untuk membuka kenangan indah kita...</p>
+    </div>
+  </div>
+
+  <!-- Page 3: Level 2 - Audio Memory -->
+  <div id="page3" class="page hidden">
+    <div class="flex justify-between items-center mb-6">
+      <span class="px-3 py-1 bg-pink-100 text-pink-700 rounded-full text-sm font-medium">Level 2: Memori Audio</span>
+      <div class="text-sm text-pink-600">2/4</div>
+    </div>
+    
+    <div class="progress-bar mb-6">
+      <div class="progress" style="width: 50%"></div>
+    </div>
+    
+    <h2 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500 mb-2">Suara Kenangan 🎧</h2>
+    <p class="mt-2 text-pink-700">Dengarkan baik-baik, ini rekaman salah satu momen favorit kita!</p>
+    
+    <div class="mt-8 p-6 bg-pink-50 rounded-2xl shadow-inner">
+      <div class="polaroid mx-auto" style="max-width: 300px;">
+        <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Our Memory" class="w-full rounded mb-2">
+        <p class="text-sm text-pink-600">Momen spesial kita 💕</p>
+      </div>
+      
+      <audio controls class="w-full mt-6">
+        <source src="suara.mp3" type="audio/mpeg">
+        Browser kamu nggak mendukung audio.
+      </audio>
+    </div>
+    
+    <div class="mt-8">
+      <input id="jawabanSuara" class="w-full px-5 py-3 border-2 border-pink-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-transparent text-lg" 
+             placeholder="Apa yang kita lakukan saat itu?" />
+    </div>
+    
+    <button onclick="checkSoundAnswer()" class="mt-6 px-8 py-3 btn-primary rounded-xl text-lg font-medium">
+      <span class="flex items-center justify-center">
+        Kirim Jawaban <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clip-rule="evenodd" />
+        </svg>
+      </span>
+    </button>
+    
+    <p id="salah2" class="text-red-500 mt-4 font-medium hidden">Hmm belum tepat, dengarkan lagi dengan perasaan! 💭</p>
+    
+    <div class="mt-6 text-sm text-pink-500">
+      <p>Hint: Ini tentang momen kita bersama... 🛵</p>
+    </div>
+  </div>
+
+  <!-- Page 4: Level 3 - Treasure Hunt -->
+  <div id="page4" class="page hidden">
+    <div class="flex justify-between items-center mb-6">
+      <span class="px-3 py-1 bg-pink-100 text-pink-700 rounded-full text-sm font-medium">Level 3: Menemukan Kode Rahasia</span>
+      <div class="text-sm text-pink-600">3/4</div>
+    </div>
+    
+    <div class="progress-bar mb-6">
+      <div class="progress" style="width: 75%"></div>
+    </div>
+    
+    <h2 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500 mb-2">Temukan Kode Rahasia 🕵️‍♀️</h2>
+    <p class="mt-2 text-pink-700">Ini adalah angka kombinasi, tebak angkanya dan masukkan kodenya!</p>
+
+    <div class="mt-8">
+      <input id="kodeRahasia" class="w-full px-5 py-3 border-2 border-pink-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-transparent text-center text-2xl tracking-widest font-bold" 
+             placeholder="Masukkan kode rahasia" maxlength="3" />
+    </div>
+    
+    <button onclick="checkCode()" class="mt-6 px-8 py-3 btn-primary rounded-xl text-lg font-medium">
+      Buka Kejutan <span class="ml-2">🎁</span>
+    </button>
+    
+    <p id="salah3" class="text-red-500 mt-4 font-medium hidden">Kode belum tepat, coba lagi ya! 🔍</p>
+    
+    <div class="mt-6 text-sm text-pink-500 italic">
+      <p>Hint: dari tanggal lahir kamu, tanggal lahir aku, dan tanggal jadian kita.</p>
+    </div>
+  </div>
+
+  <!-- Page 5: Countdown Surprise -->
+  <div id="page5" class="page hidden">
+    <div class="flex justify-between items-center mb-6">
+      <span class="px-3 py-1 bg-pink-100 text-pink-700 rounded-full text-sm font-medium">Level 4: Kejutan Spesial</span>
+      <div class="text-sm text-pink-600">4/4</div>
+    </div>
+    
+    <div class="progress-bar mb-6">
+      <div class="progress" style="width: 100%"></div>
+    </div>
+    
+    <div class="floating mb-6">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 mx-auto heart" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+      </svg>
+    </div>
+    
+    <h2 class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-rose-500 mb-4">
+      <span class="cursive block text-5xl mb-2">Selamat!</span>
+      🎉 Kamu Berhasil! 🎉
+    </h2>
+    
+    <p class="mt-4 text-xl text-pink-700">Hadiah spesial sudah menantimu!</p>
+    <p class="text-lg text-pink-600 mb-8">Tunggu hitungan mundur ini...</p>
+    
+    <div class="countdown mb-8" id="countdown">5</div>
+    
+    <div id="surprise-content" class="hidden">
+      <div class="love-letter mt-6 mb-8 p-6">
+        <div class="love-letter-content">
+          <h3 class="text-2xl font-bold text-pink-700 mb-4 cursive">Untuk My Flower Tercinta,</h3>
+          <p class="text-pink-800 mb-3">Selamat ulang tahun yaa sayangku, cintaku, cantikku, manisku! 💖</p>
+          <p class="text-pink-800 mb-3">Terima kasih sudah menjadi bagian terindah dalam hidupku. Setiap hari bersamamu adalah hadiah yang tak ternilai.</p>
+          <p class="text-pink-800 mb-3">Aku berjanji akan terus membuatmu bahagia, mencintaimu sepenuh hati, dan menjadi tempat teraman untukmu.</p>
+          <p class="text-pink-800 mb-4">Ini adalah salah satu dari banyak kejutan untukmu hari ini! 😘</p>
+          <p class="text-right font-bold text-pink-700 cursive">Dengan cinta,<br>Your Boyfriend</p>
+        </div>
+      </div>
+      
+      <a href="video-surprise.mp4" target="_blank" class="mt-4 inline-block px-8 py-4 btn-primary rounded-full text-xl font-bold animate-pulse">
+        🎥 Buka Video Kejutan Spesial
+      </a>
+      
+      <div class="mt-8 grid grid-cols-2 gap-4 max-w-md mx-auto">
+        <button onclick="showMemory(1)" class="px-4 py-2 bg-pink-100 rounded-lg text-pink-700 font-medium">
+          💕 Memory 1
+        </button>
+        <button onclick="showMemory(2)" class="px-4 py-2 bg-pink-100 rounded-lg text-pink-700 font-medium">
+          📸 Memory 2
+        </button>
+        <button onclick="showMemory(3)" class="px-4 py-2 bg-pink-100 rounded-lg text-pink-700 font-medium">
+          😘 Memory 3
+        </button>
+        <button onclick="showMemory(4)" class="px-4 py-2 bg-pink-100 rounded-lg text-pink-700 font-medium">
+          🎁 Hadiah
+        </button>
+      </div>
+    </div>
+    
+    <div class="mt-8 text-xs text-pink-400">
+      <p>Terima kasih sudah menjadi bagian dari hidupku ya sayang, maaf cuman bisa kasih ini 💖</p>
+    </div>
+  </div>
+
+  <!-- Memory Modal -->
+  <div id="memory-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl p-6 max-w-md mx-4 relative">
+      <button onclick="closeMemory()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      <div id="memory-content" class="mt-4">
+        <!-- Content will be inserted here -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Music toggle
+    const musicToggle = document.getElementById('music-toggle');
+    const bgMusic = document.getElementById('bg-music');
+    let musicPlaying = false;
+    
+    musicToggle.addEventListener('click', () => {
+      if (musicPlaying) {
+        bgMusic.pause();
+        musicToggle.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clip-rule="evenodd" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+          </svg>
+        `;
+      } else {
+        bgMusic.play();
+        musicToggle.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M12 6a7.975 7.975 0 015.657 2.343m0 0a7.975 7.975 0 010 11.314m-11.314 0a7.975 7.975 0 010-11.314m0 0a7.975 7.975 0 015.657-2.343" />
+          </svg>
+        `;
+      }
+      musicPlaying = !musicPlaying;
+    });
+    
+    // Improved page transition
+    function showPage(id) {
+      document.querySelectorAll('.page').forEach(el => {
+        el.classList.add('hidden');
+        el.classList.remove('active');
+      });
+      
+      setTimeout(() => {
+        document.getElementById(id).classList.remove('hidden');
+        setTimeout(() => {
+          document.getElementById(id).classList.add('active');
+        }, 50);
+      }, 300);
+      
+      // If final page, start countdown
+      if (id === 'page5') {
+        startCountdown();
+      }
+    }
+    
+    function wrongAnswer(button) {
+      button.classList.add('bg-red-50', 'border-red-300', 'text-red-500');
+      document.getElementById('wrong1').classList.remove('hidden');
+      
+      // Shake animation for wrong answer
+      button.classList.add('animate-shake');
+      setTimeout(() => {
+        button.classList.remove('animate-shake');
+      }, 500);
+      
+      // Create X icon
+      const xIcon = document.createElement('span');
+      xIcon.innerHTML = '❌';
+      xIcon.className = 'ml-2';
+      button.appendChild(xIcon);
+    }
+    
+    function correctAnswer(next) {
+      showPage(next);
+    }
+    
+    function checkSoundAnswer() {
+      const answer = document.getElementById('jawabanSuara').value.toLowerCase();
+      const acceptedAnswers = ['motor', 'nyanyi', 'boncengan', 'jalan-jalan', 'kencan', 'perjalanan'];
+      
+      if (acceptedAnswers.some(ans => answer.includes(ans))) {
+        showPage('page4');
+      } else {
+        document.getElementById('salah2').classList.remove('hidden');
+        document.getElementById('jawabanSuara').classList.add('border-red-300', 'ring-2', 'ring-red-200');
+        setTimeout(() => {
+          document.getElementById('jawabanSuara').classList.remove('border-red-300', 'ring-2', 'ring-red-200');
+        }, 1000);
+      }
+    }
+    
+    function checkCode() {
+      const code = document.getElementById('kodeRahasia').value;
+      const acceptedCodes = ['143', '521', 'love', 'sayang', 'aku cinta kamu'];
+      
+      if (acceptedCodes.includes(code.toLowerCase())) {
+        showPage('page5');
+      } else {
+        document.getElementById('salah3').classList.remove('hidden');
+        document.getElementById('kodeRahasia').classList.add('border-red-300', 'ring-2', 'ring-red-200');
+        setTimeout(() => {
+          document.getElementById('kodeRahasia').classList.remove('border-red-300', 'ring-2', 'ring-red-200');
+        }, 1000);
+      }
+    }
+    
+    function hintAlert(message) {
+      alert(message);
+    }
+    
+    function startCountdown() {
+      let count = 5;
+      const countdownEl = document.getElementById('countdown');
+      const surpriseContent = document.getElementById('surprise-content');
+      
+      const timer = setInterval(() => {
+        countdownEl.textContent = count;
+        count--;
+        
+        if (count < 0) {
+          clearInterval(timer);
+          countdownEl.classList.add('hidden');
+          surpriseContent.classList.remove('hidden');
+          createConfetti();
+        }
+      }, 1000);
+    }
+    
+    // Confetti effect for final page
+    function createConfetti() {
+      const container = document.getElementById('confetti-container');
+      const colors = ['#ec4899', '#f43f5e', '#f97316', '#f59e0b', '#10b981', '#3b82f6'];
+      
+      // Clear existing confetti
+      container.innerHTML = '';
+      
+      for (let i = 0; i < 150; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+        confetti.style.width = `${Math.random() * 10 + 5}px`;
+        confetti.style.height = `${Math.random() * 10 + 5}px`;
+        
+        // Random shape
+        if (Math.random() > 0.7) {
+          confetti.style.borderRadius = '50%';
+        } else if (Math.random() > 0.5) {
+          confetti.style.clipPath = 'polygon(50% 0%, 0% 100%, 100% 100%)';
+        }
+        
+        container.appendChild(confetti);
+        
+        // Animate each confetti
+        setTimeout(() => {
+          confetti.style.opacity = '1';
+          confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+          confetti.style.top = '100vh';
+        }, i * 20);
+      }
+    }
+    
+    // Memory functions
+    const memories = {
+      1: {
+        title: "Pertemuan Pertama",
+        content: `
+          <div class="text-center">
+            <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="First Meet" class="mx-auto rounded-lg mb-4 max-h-60">
+            <h3 class="text-xl font-bold text-pink-700 mb-2">Pertemuan Pertama Kita</h3>
+            <p class="text-pink-600">Aku masih ingat jelas hari itu, kamu tersenyum manis dan membuatku langsung jatuh cinta 💘</p>
+          </div>
+        `
+      },
+      2: {
+        title: "Kencan Spesial",
+        content: `
+          <div class="text-center">
+            <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Special Date" class="mx-auto rounded-lg mb-4 max-h-60">
+            <h3 class="text-xl font-bold text-pink-700 mb-2">Kencan Tak Terlupakan</h3>
+            <p class="text-pink-600">Hari itu kita jalan-jalan seharian dan tertawa bersama. Aku tahu sejak saat itu aku ingin selalu membuatmu tersenyum 😊</p>
+          </div>
+        `
+      },
+      3: {
+        title: "Momen Romantis",
+        content: `
+          <div class="text-center">
+            <img src="https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Romantic Moment" class="mx-auto rounded-lg mb-4 max-h-60">
+            <h3 class="text-xl font-bold text-pink-700 mb-2">Momen Paling Romantis</h3>
+            <p class="text-pink-600">Ketika kita berpelukan di bawah bintang, aku berjanji dalam hati akan selalu mencintaimu ❤️</p>
+          </div>
+        `
+      },
+      4: {
+        title: "Hadiah Spesial",
+        content: `
+          <div class="text-center">
+            <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Gift" class="mx-auto rounded-lg mb-4 max-h-60">
+            <h3 class="text-xl font-bold text-pink-700 mb-2">Hadiah Untukmu</h3>
+            <p class="text-pink-600">Aku sudah menyiapkan hadiah spesial yang akan diberikan nanti malam! Siap-siap ya 😘</p>
+            <p class="mt-4 text-sm text-pink-500">(Cek WhatsApp kamu setelah ini!)</p>
+          </div>
+        `
+      }
+    };
+    
+    function showMemory(id) {
+      const modal = document.getElementById('memory-modal');
+      const content = document.getElementById('memory-content');
+      
+      content.innerHTML = memories[id].content;
+      modal.classList.remove('hidden');
+      
+      // Add confetti for memory 4
+      if (id === 4) {
+        createConfetti();
+      }
+    }
+    
+    function closeMemory() {
+      document.getElementById('memory-modal').classList.add('hidden');
+    }
+    
+    // Add shake animation for wrong answers
+    const style = document.createElement('style');
+    style.innerHTML = `
+      @keyframes fall {
+        to {
+          transform: translateY(100vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+      .animate-shake {
+        animation: shake 0.5s linear;
+      }
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        20%, 60% { transform: translateX(-5px); }
+        40%, 80% { transform: translateX(5px); }
+      }
+    `;
+    document.head.appendChild(style);
+    
+    // Initialize first page
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('page1').classList.add('active');
+      
+      // Try to play music (will be muted until user interaction)
+      document.addEventListener('click', function initialPlay() {
+        bgMusic.volume = 0.3;
+        if (!musicPlaying) {
+          bgMusic.play().then(() => {
+            musicPlaying = true;
+            musicToggle.innerHTML = `
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M12 6a7.975 7.975 0 015.657 2.343m0 0a7.975 7.975 0 010 11.314m-11.314 0a7.975 7.975 0 010-11.314m0 0a7.975 7.975 0 015.657-2.343" />
+              </svg>
+            `;
+          }).catch(e => console.log('Autoplay prevented'));
+        }
+        document.removeEventListener('click', initialPlay);
+      }, { once: true });
+    });
+  </script>
+</body>
+</html>
